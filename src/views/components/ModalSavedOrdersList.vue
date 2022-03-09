@@ -115,20 +115,6 @@ export default {
   props: {
     savedOrdersList: Array,
   },
-
-  computed: {
-    change() {
-      let change = this.payment.received - this.totalPay || 0;
-      if (change < 0) {
-        return "Jumlah Uang Kurang !!";
-      } else if (change == 0) {
-        return "-";
-      } else {
-        return "Kembalian -> " + this.currency(change);
-      }
-    },
-  },
-
   methods: {
     currency(number) {
       return numberFormat.currency(number);

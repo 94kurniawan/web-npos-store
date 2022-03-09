@@ -398,7 +398,8 @@ export default {
         customer_id: null,
         customer_name: null,
         table_number: null,
-        order_date: moment().format("YYYY-MM-DD, h:mm:ss"),
+        order_date: "",
+        // order_date: moment().format("YYYY-MM-DD, h:mm:ss"),
         payment: {
           type_id: null,
           received: null,
@@ -620,7 +621,7 @@ export default {
         customer_id: order.order.customer_id,
         customer_name: order.order.customer_name,
         table_number: order.order.table_number,
-        order_date: order.order.order_date,
+        order_date: order.saved_time,
         payment: {
           type_id: null,
           received: null,
@@ -752,6 +753,9 @@ export default {
         let user = JSON.parse(localStorage.getItem("user"));
         let header = Object.assign({}, this.header);
         header.order_number = this.timeStamp();
+        header.order_date = this.convertTimeStampToLocalDate(
+          header.order_number
+        );
         header.items = this.cart;
         this.savedOrders.store_id = user.info.store_id;
         this.savedOrders.id = header.saved_order_id;
@@ -801,6 +805,11 @@ export default {
       return (Date.now() / 1000) | 0;
     },
 
+    convertTimeStampToLocalDate(x) {
+      let date = new Date(x * 1000);
+      return moment(date).format("YYYY-MM-DD, h:mm:ss");
+    },
+
     modalSuccess() {
       let modal = document.getElementById("modal-success");
       modal.style.display = "block";
@@ -811,6 +820,9 @@ export default {
         // this.header.saved_order_id = this.savedOrders.id;
         if (this.header.saved_order_id == null) {
           this.header.order_number = this.timeStamp();
+          this.header.order_date = this.convertTimeStampToLocalDate(
+            this.header.order_number
+          );
         }
         this.header.payment.type_id = payment.type_id;
         this.header.payment.received = payment.received;

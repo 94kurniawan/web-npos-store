@@ -26,7 +26,7 @@
     <div class="flex justify-center pt-1">
       <p class="text-right">
         {{ formatDateTime(receipt.order_date) }} -
-        {{ formatDateTime(receipt.order_date) }}
+        {{ receipt.payment.time }}
       </p>
     </div>
     <p

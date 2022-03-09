@@ -1,7 +1,7 @@
 <template>
   <div id="container" class="h-full relative bg-gray-200">
     <div class="relative h-full w-full p-3 grid grid-cols-12 overflow-y-auto">
-      <div class="bg-white h-full col-span-5 overflow-y-auto pb-3">
+      <div class="bg-white h-full col-span-5 overflow-y-auto pb-20">
         <div class="sticky top-0">
           <input
             type="text"
@@ -95,7 +95,9 @@
           </div>
         </div>
       </div>
-      <div class="h-full col-span-7 flex overflow-y-auto overflow-x-auto">
+      <div
+        class="relative h-full col-span-7 flex overflow-y-auto overflow-x-auto"
+      >
         <div
           :class="{ hidden: hideReceipt }"
           class="relative font-mono mx-auto top-10"
@@ -240,11 +242,10 @@
           <br /><br /><br /><br />
         </div>
       </div>
-
       <!-- Print & refund Button -->
       <div
         :class="{ hidden: hideReceipt }"
-        class="absolute w-full flex gap-4 justify-end bottom-3 right-8"
+        class="absolute w-1/2 flex gap-4 justify-end bottom-3 right-4"
       >
         <button
           @click="rePrintReceipt()"
@@ -273,9 +274,9 @@
               d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
             />
           </svg>
-          <p class="ml-1 text-xl">Print Receipt</p>
+          <p class="ml-1 text-xl">rePrint Receipt</p>
         </button>
-        <button
+        <!-- <button
           @click="rePrintKitchen()"
           class="
             py-4
@@ -303,7 +304,7 @@
             />
           </svg>
           <p class="ml-1 text-xl">Print Kitchen</p>
-        </button>
+        </button> -->
         <button
           @click="confirmDelete()"
           class="py-4 w-40 bg-red-400 text-white"
@@ -705,19 +706,26 @@ export default {
         cashier_name: this.user.info.name,
       };
       this.receipt.store = store;
-      Android.rePrintReceipt(JSON.stringify(this.receipt));
+      localStorage.setItem("receipt", JSON.stringify(this.receipt));
+
+      let router = this.$router.resolve({
+        name: "PrintReceipt",
+      });
+      window.open(router.href, "", "width=1000,height=650");
+      // Android.rePrintReceipt(JSON.stringify(this.receipt));
     },
 
-    rePrintKitchen() {
-      console.log("re print kitchen");
-      let store = {
-        name: this.user.info.store_name,
-        address: this.user.info.store_address,
-        cashier_name: this.user.info.name,
-      };
-      this.receipt.store = store;
-      Android.rePrintKitchen(JSON.stringify(this.receipt));
-    },
+    // rePrintKitchen() {
+    //   console.log("re print kitchen");
+    //   let store = {
+    //     name: this.user.info.store_name,
+    //     address: this.user.info.store_address,
+    //     cashier_name: this.user.info.name,
+    //   };
+    //   this.receipt.store = store;
+
+    //   Android.rePrintKitchen(JSON.stringify(this.receipt));
+    // },
 
     async fetchSales() {
       try {
