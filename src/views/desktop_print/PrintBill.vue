@@ -19,7 +19,12 @@
 
     <div class="flex">
       <p>Tanggal</p>
-      <p class="flex-grow text-right">{{ formatDateTime(bill.order_date) }}</p>
+      <p v-if="bill.order_date != ''" class="flex-grow text-right">
+        {{ formatDateTime(bill.order_date) }}
+      </p>
+      <p v-if="bill.order_date == ''" class="flex-grow text-right">
+        {{ today }}
+      </p>
     </div>
     <div class="flex">
       <p>Nomor</p>
@@ -136,7 +141,7 @@ export default {
   data() {
     return {
       // Temporary data
-      today: moment().format("LLLL"),
+      today: moment().format("LL, h:mm:ss"),
       user: JSON.parse(localStorage.getItem("user")),
       bill: JSON.parse(localStorage.getItem("bill")),
     };
