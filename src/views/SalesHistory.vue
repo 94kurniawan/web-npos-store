@@ -121,16 +121,23 @@
           <div class="bg-white px-3 py-3 h-auto shadow-xl">
             <p class="text-center font-bold">{{ user.info.store_name }}</p>
             <p class="text-center">{{ user.info.store_address }}</p>
-            <p class="text-center">
-              ================================================
-            </p>
+            <p
+              class="text-center border-b-2 border-gray-400 border-dashed mt-1"
+            ></p>
+            <p
+              class="text-center border-b-2 border-gray-400 border-dashed mb-1"
+            ></p>
 
-            <div class="grid grid-cols-2">
-              <p>Tanggal</p>
+            <div class="flex justify-center">
               <p class="text-right">
-                {{ formatDateInIDN(receipt.order_date) }}
+                {{ formatDateInIDN(receipt.order_date) }} -
+                {{ receipt.payment.time }}
               </p>
             </div>
+            <p
+              class="text-center border-b-2 border-gray-400 border-dashed my-1"
+            ></p>
+
             <div class="grid grid-cols-2">
               <p>Nomor</p>
               <p class="text-right">{{ receipt.payment.number }}</p>
@@ -147,9 +154,11 @@
               <p>Table</p>
               <p class="text-right">{{ receipt.table_number }}</p>
             </div>
-            <p class="text-center">
-              ================================================
-            </p>
+
+            <p
+              class="text-center border-b-2 border-gray-400 border-dashed my-1"
+            ></p>
+
             <div v-for="item in receipt.items" :key="item.key">
               <div class="grid grid-flow-col grid-cols-6">
                 <div class="col-span-3 font-bold">
@@ -187,9 +196,11 @@
               </div>
               <p class="col-span-4">{{ item.note }}</p>
             </div>
-            <p class="text-center">
-              ================================================
-            </p>
+
+            <p
+              class="text-center border-b-2 border-gray-400 border-dashed my-1"
+            ></p>
+
             <div class="grid grid-flow-col grid-cols-6 font-bold">
               <p class="col-span-4">SUB TOTAL</p>
               <p class="col-span-2 text-right">
@@ -219,9 +230,11 @@
               <p class="col-span-4">+ {{ cost.name }}</p>
               <p class="col-span-2 text-right">{{ currency(cost.total) }}</p>
             </div>
-            <p class="text-center">
-              ================================================
-            </p>
+
+            <p
+              class="text-center border-b-2 border-gray-400 border-dashed my-1"
+            ></p>
+
             <div class="grid grid-flow-col grid-cols-6 font-bold">
               <p class="col-span-4">TOTAL</p>
               <p class="col-span-2 text-right">{{ currency(receipt.total) }}</p>
@@ -651,7 +664,7 @@ export default {
       return numberFormat.currency(number);
     },
     formatDateInIDN(date) {
-      return moment(date).format("LL");
+      return moment(date).format("LL, h:mm:ss");
     },
     showMenu() {
       if (this.showSideMenu === false) {
