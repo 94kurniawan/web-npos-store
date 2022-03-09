@@ -8,6 +8,7 @@ import Inventory from '../views/Inventory.vue'
 import RawMaterials from '../views/raw_materials/RawMaterials.vue'
 import Transactions from '../views/raw_materials/Transactions.vue'
 import Reports from '@/views/reports/Reports.vue'
+import PrintBill from '@/views/desktop_print/PrintBill.vue'
 
 const routes = [
   {
@@ -57,6 +58,11 @@ const routes = [
     name: 'Reports',
     component: Reports
   },
+  {
+    path: '/print-bill',
+    name: 'PrintBill',
+    component: PrintBill
+  }
   // {
   //   path: '/about',
   //   name: 'About',

@@ -211,7 +211,7 @@
 
     <div class="h-1/5">
       <div class="flex h-1/2 gap-0.5 border-b-2">
-        <button
+        <!-- <button
           @click="testPrint()"
           class="flex flex-grow py-4 justify-center bg-gray-500 text-white"
         >
@@ -230,6 +230,26 @@
             />
           </svg>
           <p class="uppercase ml-1 my-auto">test print</p>
+        </button> -->
+        <button
+          @click="printBill()"
+          class="flex flex-grow py-4 justify-center bg-gray-500 text-white"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+            />
+          </svg>
+          <p class="uppercase ml-1 my-auto">Print Bill</p>
         </button>
         <button
           @click="saveOrder()"
@@ -323,6 +343,7 @@ export default {
   data() {
     return {
       token: localStorage.getItem("token"),
+      user: JSON.parse(localStorage.getItem("user")),
       today: moment().format("dddd, LL"),
 
       hideListCustomer: true,
@@ -660,21 +681,56 @@ export default {
     },
 
     printBill() {
-      // let header = Object.assign({}, this.header);
-      // let items = this.cart;
-      // header.items = items;
-      // Android.printInvoice("printttttt");
-      alert("print bill");
+      let header = Object.assign({}, this.header);
+      header.items = this.cart;
+      header.sub_total = 0;
+      header.sub_total_disc = 0;
+      header.additionalCost = [];
+      header.total = 0;
+      header.items.forEach((item) => {
+        let subTotal = item.quantity * item.price;
+        header.sub_total += subTotal;
+        if (item.discount_id != null) {
+          let subTotalDisc = subTotal * item.discount.percentage;
+          header.sub_total_disc += subTotalDisc;
+        }
+        item.additional_cost.forEach((cost) => {
+          let obj = {
+            name: cost.name,
+            total: cost.total,
+          };
+          let findAdditionalCost = [];
+          header.additionalCost.forEach((addCost) => {
+            if (addCost.name === obj.name) {
+              addCost.total += obj.total;
+              findAdditionalCost.push(true);
+            } else {
+              findAdditionalCost.push(false);
+            }
+          });
+          if (!findAdditionalCost.includes(true)) {
+            header.additionalCost.push(obj);
+          }
+        });
+        header.total += item.sub_total;
+      });
+
+      let router = this.$router.resolve({
+        name: "PrintBill",
+      });
+
+      window.open(router.href, "", "width=1000,height=650");
+      localStorage.setItem("bill", JSON.stringify(header));
     },
 
-    testPrint() {
-      console.log("test print ...");
-      try {
-        Android.testPrint();
-      } catch (error) {
-        console.log("gagal mengirim print ke android");
-      }
-    },
+    // testPrint() {
+    //   console.log("test print ...");
+    //   try {
+    //     Android.testPrint();
+    //   } catch (error) {
+    //     console.log("gagal mengirim print ke android");
+    //   }
+    // },
 
     async fetchSavedOrdersList() {
       let user = JSON.parse(localStorage.getItem("user"));
