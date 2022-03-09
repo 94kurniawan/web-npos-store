@@ -10,6 +10,7 @@ import Transactions from '../views/raw_materials/Transactions.vue'
 import Reports from '@/views/reports/Reports.vue'
 import PrintBill from '@/views/desktop_print/PrintBill.vue'
 import PrintReceipt from '@/views/desktop_print/PrintReceipt.vue'
+import PrintRecapCash from '@/views/desktop_print/PrintRecapCash.vue'
 
 const routes = [
   {
@@ -68,6 +69,11 @@ const routes = [
     path: '/print-receipt',
     name: 'PrintReceipt',
     component: PrintReceipt
+  },
+  {
+    path: '/print-recap-cash',
+    name: 'PrintRecapCash',
+    component: PrintRecapCash
   }
   // {
   //   path: '/about',

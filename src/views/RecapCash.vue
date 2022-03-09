@@ -326,12 +326,19 @@ export default {
         patty_cash: this.totalModal,
       };
       recapCash.total = total;
+
+      localStorage.setItem("recapCash", JSON.stringify(recapCash));
+
+      let router = this.$router.resolve({
+        name: "PrintRecapCash",
+      });
+      window.open(router.href, "", "width=1000,height=650");
       // console.log(recapCash);
-      try {
-        Android.printRecapCashier(JSON.stringify(recapCash));
-      } catch (error) {
-        console.log(error.message);
-      }
+      // try {
+      //   Android.printRecapCashier(JSON.stringify(recapCash));
+      // } catch (error) {
+      //   console.log(error.message);
+      // }
     },
 
     async fetchRecapCash() {

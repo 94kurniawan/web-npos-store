@@ -155,8 +155,6 @@ export default {
       return numberFormat.currency(number);
     },
     print() {
-      // this.bill = JSON.parse(localStorage.getItem("bill"));
-      // this.user = JSON.parse(localStorage.getItem("user"));
       setTimeout(() => {
         window.print();
         window.close();
@@ -166,7 +164,7 @@ export default {
   },
 
   mounted() {
-    // this.print();
+    this.print();
   },
 };
 </script>
