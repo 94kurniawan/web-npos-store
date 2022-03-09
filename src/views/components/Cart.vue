@@ -907,7 +907,11 @@ export default {
 
       localStorage.setItem("receipt", dataString);
 
-      Android.printReceipt(dataString);
+      let router = this.$router.resolve({
+        name: "PrintReceipt",
+      });
+      window.open(router.href, "", "width=1000,height=650");
+      // Android.printReceipt(dataString);
     },
   },
 
