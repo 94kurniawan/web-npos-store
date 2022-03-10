@@ -2,7 +2,6 @@
   <div
     @click="closeModalWindow()"
     class="
-      hidden
       fixed
       inset-0
       bg-gray-600 bg-opacity-50
@@ -39,7 +38,7 @@
             </th>
             <th class="py-3 px-6 text-left">Table</th>
             <th class="py-3 px-6 text-left">Customer</th>
-            <!-- <th class="py-3 px-6 text-right">TOTAL</th> -->
+            <th class="py-3 px-6 text-right">TOTAL</th>
           </tr>
         </thead>
 
@@ -93,9 +92,9 @@
             <td class="py-3 px-6 text-left whitespace-nowrap">
               {{ data.order.customer_name }}
             </td>
-            <!-- <td class="py-3 px-6 text-right whitespace-nowrap">
-              {{ currency(0) }}
-            </td> -->
+            <td class="py-3 px-6 text-right whitespace-nowrap">
+              {{ currency(totalPay(data)) }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -115,9 +114,17 @@ export default {
   props: {
     savedOrdersList: Array,
   },
+
   methods: {
     currency(number) {
       return numberFormat.currency(number);
+    },
+    totalPay(data) {
+      let total = 0;
+      data.order.items.forEach((item) => {
+        total += item.sub_total;
+      });
+      return total;
     },
     closeModalWindow() {
       let modal = document.getElementById("modal-saved-orders-list");
