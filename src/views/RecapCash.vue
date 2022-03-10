@@ -312,7 +312,7 @@ export default {
       return moment(date).format("ll");
     },
     formatDateTime(date) {
-      return moment(date).format("LL, h:mm:ss");
+      return moment(date).format("LL, LTS");
     },
     printRecapCash() {
       let recapCash = JSON.parse(JSON.stringify(this.recapCash));
