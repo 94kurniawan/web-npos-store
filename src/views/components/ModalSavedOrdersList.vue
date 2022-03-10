@@ -2,6 +2,7 @@
   <div
     @click="closeModalWindow()"
     class="
+      hidden
       fixed
       inset-0
       bg-gray-600 bg-opacity-50

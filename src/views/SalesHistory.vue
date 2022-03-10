@@ -664,7 +664,7 @@ export default {
       return numberFormat.currency(number);
     },
     formatDateInIDN(date) {
-      return moment(date).format("LL, h:mm:ss");
+      return moment(date).format("LL, LTS");
     },
     showMenu() {
       if (this.showSideMenu === false) {

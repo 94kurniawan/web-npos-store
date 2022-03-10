@@ -146,6 +146,7 @@
 
 <script>
 import moment from "moment";
+import "moment/locale/id";
 import * as numberFormat from "@/custom_package/number.js";
 
 export default {
@@ -162,7 +163,7 @@ export default {
 
   methods: {
     formatDateTime(date) {
-      return moment(date).format("LL, h:mm:ss");
+      return moment(date).format("LL, LTS");
     },
     currency(number) {
       return numberFormat.currency(number);

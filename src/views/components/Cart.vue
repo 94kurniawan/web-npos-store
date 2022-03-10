@@ -807,7 +807,8 @@ export default {
 
     convertTimeStampToLocalDate(x) {
       let date = new Date(x * 1000);
-      return moment(date).format("YYYY-MM-DD, h:mm:ss");
+      return moment(date).format("YYYY-MM-DD, LTS");
+      // return moment(date).format("YYYY-MM-DD, h:mm:ss");
     },
 
     modalSuccess() {
