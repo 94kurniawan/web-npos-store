@@ -39,7 +39,7 @@
             </th>
             <th class="py-3 px-6 text-left">Table</th>
             <th class="py-3 px-6 text-left">Customer</th>
-            <th class="py-3 px-6 text-right">TOTAL</th>
+            <!-- <th class="py-3 px-6 text-right">TOTAL</th> -->
           </tr>
         </thead>
 
@@ -93,9 +93,9 @@
             <td class="py-3 px-6 text-left whitespace-nowrap">
               {{ data.order.customer_name }}
             </td>
-            <td class="py-3 px-6 text-right whitespace-nowrap">
+            <!-- <td class="py-3 px-6 text-right whitespace-nowrap">
               {{ currency(0) }}
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
