@@ -76,6 +76,18 @@
     ></p>
 
     <div class="grid grid-flow-col grid-cols-6 font-bold">
+      <p class="col-span-4 uppercase text-right">Sub Total</p>
+      <p class="col-span-2 text-right">
+        {{ currency(recapCash.total.sales - recapCash.total.additionalCost) }}
+      </p>
+    </div>
+    <div class="grid grid-flow-col grid-cols-6 font-bold">
+      <p class="col-span-4 uppercase text-right">Tax &amp; Service 10%</p>
+      <p class="col-span-2 text-right">
+        {{ currency(recapCash.total.additionalCost) }}
+      </p>
+    </div>
+    <div class="grid grid-flow-col grid-cols-6 font-bold">
       <p class="col-span-4 uppercase text-right">Total</p>
       <p class="col-span-2 text-right">{{ currency(recapCash.total.sales) }}</p>
     </div>

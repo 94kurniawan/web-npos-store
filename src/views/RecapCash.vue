@@ -125,6 +125,20 @@
               ------------------------------------------------
             </p>
             <div class="grid grid-flow-col grid-cols-6 font-bold">
+              <p class="col-span-4 uppercase text-right">Sub Total</p>
+              <p class="col-span-2 text-right">
+                {{ currency(totalSales - totalAdditionalCost) }}
+              </p>
+            </div>
+            <div class="grid grid-flow-col grid-cols-6 font-bold">
+              <p class="col-span-4 uppercase text-right">
+                Tax &amp; Service 10%
+              </p>
+              <p class="col-span-2 text-right">
+                {{ currency(totalAdditionalCost) }}
+              </p>
+            </div>
+            <div class="grid grid-flow-col grid-cols-6 font-bold">
               <p class="col-span-4 uppercase text-right">Total</p>
               <p class="col-span-2 text-right">{{ currency(totalSales) }}</p>
             </div>
@@ -267,6 +281,11 @@ export default {
         amount: null,
         date: moment().format("YYYY-MM-DD"),
       },
+
+      sales: {
+        cashier: {},
+        orders: [],
+      },
     };
   },
 
@@ -302,6 +321,84 @@ export default {
       }
       return modal;
     },
+    totalAdditionalCost() {
+      let arr = [];
+      let sales = JSON.parse(JSON.stringify(this.sales));
+      let user = sales.cashier;
+      // let user = JSON.parse(localStorage.getItem("user"));
+      sales.orders.forEach((sale) => {
+        let data = sale;
+        let totalPrice = 0;
+        let totalOption = 0;
+        let totalDiscount = 0;
+        let additionalCost = [];
+        let totalAdditionalCost = 0;
+
+        data.items.forEach((item) => {
+          if (!item.discount_percentage) {
+            item.discount_percentage = 0;
+          }
+
+          if (!item.option_price) {
+            item.option_price = 0;
+          }
+
+          let total = item.quantity * item.price;
+          let discount = total * item.discount_percentage || 0;
+          let totalAfterDiscount = total - discount;
+          totalPrice += total;
+          totalOption += item.option_price || 0;
+          totalDiscount += discount;
+          item.total = total;
+          item.total_discount = discount;
+          // additional cost
+          item.additional_costs.forEach((cost) => {
+            let obj = {
+              name: cost.name,
+              total: cost.percentage * totalAfterDiscount,
+            };
+            cost.total = obj.total;
+            let findAdditionalCost = [];
+            additionalCost.forEach((addCost) => {
+              if (addCost.name === obj.name) {
+                addCost.total += obj.total;
+                findAdditionalCost.push(true);
+              } else {
+                findAdditionalCost.push(false);
+              }
+            });
+            if (!findAdditionalCost.includes(true)) {
+              additionalCost.push(obj);
+            }
+          });
+        });
+        // total additional cost
+        additionalCost.forEach((cost) => {
+          totalAdditionalCost += cost.total;
+        });
+
+        data.total_price = totalPrice;
+        data.total_option = totalOption;
+        data.total_discount = totalDiscount;
+        data.additional_cost = additionalCost;
+        data.total_additional_cost = totalAdditionalCost;
+        data.total =
+          totalPrice + totalOption + totalAdditionalCost - totalDiscount;
+        data.change = data.payment.received - data.total;
+        data.store = {
+          // name: user.store_name.toUpperCase(),
+          address: user.store_address,
+          cashier_name: user.name,
+        };
+        arr.push(data);
+      });
+      let total = 0;
+      arr.forEach((order) => {
+        total += order.total_additional_cost;
+      });
+
+      return total;
+    },
   },
 
   methods: {
@@ -320,6 +417,7 @@ export default {
       recapCash.date.from = this.formatDateInIDN(recapCash.date.from);
       recapCash.date.to = this.formatDateInIDN(recapCash.date.to);
       let total = {
+        additionalCost: this.totalAdditionalCost,
         sales: this.totalSales,
         cash_outs: this.totalCashOut,
         cash: this.totalCash,
@@ -369,10 +467,28 @@ export default {
         console.log(error.response);
       }
     },
+
+    async fetchSales() {
+      try {
+        let headers = { Authorization: `Bearer ${this.token}` };
+        const response = await axios.get(apiHost + "/api/store/order", {
+          headers,
+          params: {
+            date_from: this.datePeriod.from,
+            date_to: this.datePeriod.to,
+          },
+        });
+        this.sales = response.data.data;
+        this.closeReceipt();
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
   },
 
   mounted() {
     this.fetchRecapCash();
+    this.fetchSales();
   },
 };
 </script>
