@@ -164,7 +164,7 @@ export default {
   },
 
   mounted() {
-    // this.print();
+    this.print();
   },
 };
 </script>

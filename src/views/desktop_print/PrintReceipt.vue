@@ -82,14 +82,14 @@
       <div class="grid grid-flow-col grid-cols-6">
         <p class="col-span-4">{{ item.sales_type }}</p>
       </div>
-      <div
+      <!-- <div
         v-for="cost in item.additional_costs"
         :key="cost.key"
         class="grid grid-flow-col grid-cols-6"
       >
         <p class="col-span-4">+ {{ cost.name }}</p>
         <p class="col-span-2 text-right">{{ currency(cost.total) }}</p>
-      </div>
+      </div> -->
       <p class="col-span-4">{{ item.note }}</p>
     </div>
 
