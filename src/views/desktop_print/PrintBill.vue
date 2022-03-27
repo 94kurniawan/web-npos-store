@@ -80,14 +80,14 @@
       <div class="grid grid-flow-col grid-cols-6">
         <p class="col-span-4">{{ item.sales_type.name }}</p>
       </div>
-      <div
+      <!-- <div
         v-for="cost in item.additional_cost"
         :key="cost.key"
         class="grid grid-flow-col grid-cols-6"
       >
         <p class="col-span-4">+ {{ cost.name }}</p>
         <p class="col-span-2 text-right">{{ currency(cost.total) }}</p>
-      </div>
+      </div> -->
       <p class="col-span-4">{{ item.note }}</p>
     </div>
 
@@ -164,7 +164,7 @@ export default {
   },
 
   mounted() {
-    this.print();
+    // this.print();
   },
 };
 </script>
