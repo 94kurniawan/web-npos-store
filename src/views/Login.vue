@@ -19,7 +19,12 @@
       <!-- <p class="text-center p-1 bg-gray-200 tracking-widest text-xl">
         Development Mode
       </p> -->
-      <p class="text-center p-5 tracking-widest text-xl">WELCOME BACK</p>
+      <p class="text-center p-t font-bold">N-POS</p>
+      <p class="text-center p-t font-bold text-green-800 uppercase">
+        "Point of Sale"
+      </p>
+      <p class="text-center pb-2 text-xs">powered by &copy; Budi Kurniawan</p>
+      <!-- <p class="text-center p-5 tracking-widest text-xl">WELCOME BACK xx</p> -->
       <div class="flex items-center content-center mt-0 px-6">
         <div class="absolute text-gray-600">
           <svg
@@ -43,7 +48,7 @@
           type="email"
           name=""
           class="w-full bg-white py-4 pl-8 outline-none rounded-t-md border-b-2"
-          placeholder="Email"
+          placeholder="Email / Username"
         />
       </div>
       <div class="flex items-center content-center mt-1 px-6">
